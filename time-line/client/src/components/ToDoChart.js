@@ -54,18 +54,22 @@ const TaskChart = () => {
   const data=[...tasks];
  
  return (
+
+
+  <div className='todoReport'>
       <center>
        
          {/* <p className='todo'> TO DO  of {user}</p> */}
         <BarChart className='todoChart' width={800} height={450} data={data} margin={{ top: 100, right: 50, left: 95, bottom: 5 }}>
-            <XAxis dataKey="date" axisLine={{ stroke: 'black' }} tickLine={{ stroke: 'black' }}/>
-            <YAxis />
+            <XAxis dataKey="date" axisLine={{ stroke: 'black' }} tickLine={{ stroke: 'black' }} style={{fontSize:"130%"}}/>
+            <YAxis style={{fontSize:"130%"}}/>
             <Tooltip cursor={{fill: 'transparent'}}/>
             <Legend />
-            <Bar dataKey="tasks" fill="rgb(48,31,138)" onClick={handleBarClick} barSize={40} />
+            <Bar dataKey="tasks" fill="rgb(82, 129, 183)" onClick={handleBarClick} barSize={40} />
             
 </BarChart>
 </center>
+</div>
 );
 };
 

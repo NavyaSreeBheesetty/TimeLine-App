@@ -9,7 +9,6 @@ import TaskChart from "./components/ToDoChart";
 import ExpenseTracker from "./components/ExpenseTracker";
 import BugReport from "./components/BugReport";
 import LeaveReport from "./components/LeaveReport";
-import InventoryReport from "./components/InventoryReport.js";
 import Home from "./components/Home";
 // import Cookies from "universal-cookie";
 
@@ -36,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "ToDo",
         element: < TaskChart/>,
+      },
+      {
+      path:"ToDoChart",
+      element:<TaskChart/>
       },
       {
         path:"ExpenseTracker",

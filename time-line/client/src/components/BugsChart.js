@@ -139,8 +139,9 @@ const handleBarClick = (e) => {
       dataKey='label1'
       onClick={(e) => handleBarClick(e)}
       type='category'
+      style={{fontSize:"110%"}}
     />
-    <YAxis />
+    <YAxis  style={{fontSize:"110%"}} />
     <Tooltip cursor={{fill: 'transparent'}}/>
     <Bar dataKey='bugs' fill='#8884d8' barSize={40} />
   </BarChart>

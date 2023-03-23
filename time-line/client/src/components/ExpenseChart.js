@@ -71,8 +71,8 @@ useEffect(() => {
         return (
             <center>
           <BarChart className='expenseChart' width={600} height={300} margin={{ top: 55, right: 50, left: 50, bottom: 5 }} data={chartData} barSize={8} value={data.filter(item => item.type)} onClick={handleClick}>
-            <XAxis dataKey="name" label={{ fontSize: 24, fontFamily: "italic" }} />
-            <YAxis />
+            <XAxis dataKey="name" label={{ fontSize: 24, fontFamily: "italic" }}  style={{fontSize:"110%"}}/>
+            <YAxis  style={{fontSize:"110%"}}/>
             <Tooltip cursor={{fill: 'transparent'}}/>
             {/* <Tooltip /> */}
             <Legend />

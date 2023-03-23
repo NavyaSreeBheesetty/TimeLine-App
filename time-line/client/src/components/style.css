@@ -119,6 +119,29 @@
       font-size: 0.8em;
     }
     
+    .todoReport {
+      position: relative;
+      /* background-image: url("https://img.freepik.com/free-vector/hand-painted-watercolor-abstract-watercolor-background_23-2149005675.jpg?w=1800&t=st=1679381739~exp=1679382339~hmac=d171769894cc3a6c4583da03415403e0a916fcfa1577b3797a147eaf04069b84"); */
+      background-image: url("https://img.freepik.com/free-photo/pastel-blue-vignette-concrete-textured-background_53876-102637.jpg");
+      width:100% !important;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    
+    .todoReport::before {
+      content: "";
+      display: block;
+      position: absolute;
+      height:100%;
+      width:100%;
+      background-size: cover;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.6); /* 50% opacity white */
+    }
+
 
     .todo{
       margin-top:50px !important;
@@ -127,16 +150,23 @@
       font-size: 30px;
     }
 
-   
+   .pieChart{
+    margin-right: 10% !important;
+    /* margin-top:10% !important */
+
+   }
 
     .timeChart{
       margin-top: 10px;
-      margin-left: 200px;
+      margin-left: 10% !important;
       margin-top: 200px;
       margin-bottom: 20px;
     }
 
-
+    .timeChartButton{
+      margin-top: 5%;
+      margin-left: 10%;
+    }
 
     .expenseTracker{
       margin-top: 80px !important;

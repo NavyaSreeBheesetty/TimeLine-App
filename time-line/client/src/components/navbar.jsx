@@ -3,14 +3,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
 import { Menu,Icon} from 'semantic-ui-react'
 import { logout } from '../functions/auth';
+import Cookies from 'universal-cookie';
 import { setAdmin, setLogins } from '../reducers/globalStates';
 import "./navbar.css";
+
+
+
+const cookie=new Cookies();
+const isAdmin = cookie.get("role") === "true";
+const username = cookie.get("username");
+
 
 export default function Navbar() {
     const dispatcher = useDispatch();
     const navigate = useNavigate();
     const [activeItem, setActiveItem] = useState("home")
-    const[selectedItem,setSelectedItem]=useState("")
+    
     const destroySession = async () => {
         let flag = await logout();
         if (flag === true) {
@@ -26,9 +34,18 @@ export default function Navbar() {
     return (
         <div style={{ height: "100vh", backgroundColor: "#2F4F4F" }}>
             <Menu pointing secondary vertical style={{width:'250px', height: "100%"}}>
-            <Menu.Item>
+            {/* <Menu.Item>
                     <img src="https://citrixready.citrix.com/content/dam/ready/partners/xe/xenovus-inc/backflipt-ios/backflipt-ios-images.png" alt="Logo" style={{marginLeft:"25px", height: '100px', marginBottom: '10px'}} />
-                </Menu.Item>
+                </Menu.Item> */}
+
+
+                
+<Menu.Menu position="right" className='userMenu' style={{marginLeft:"65px", height: '40px', marginBottom: '10px'}}>
+       
+       <Icon name="user circle"  style={{size:"40%"}}/>
+       {username}
+
+       </Menu.Menu>
                     
                     <div style={{backgroundColor:'#2F4F4F'}}></div>
                 {State.loggedIn ? (<>
@@ -43,7 +60,7 @@ export default function Navbar() {
                         <Icon name='home icon' size='large' />
                           Home
                       </Menu.Item>
-                       
+{/*                        
                     <Menu.Item className="navBarStyle"
                         name='ToDo'
                         as={Link}
@@ -53,7 +70,24 @@ export default function Navbar() {
                     >
                          <Icon name='clock outline' size='large' />
                           TO DO
-                      </Menu.Item>
+                      </Menu.Item> */}
+
+
+<Menu.Item
+ className="navBarStyle"
+//   className={`navBarStyle ${activeItem === 'ToDo' ? 'menu-item-hovered' : ''}`}
+
+
+  name='ToDo'
+  as={Link}
+  to="/ToDo"
+  active={activeItem === 'ToDo'}
+  onClick={handleItemClick}
+>
+  <Icon name='clock outline' size='large' />
+  TO DO
+</Menu.Item>
+
 
                 <Menu.Item className="navBarStyle"
         name='ExpenseTracker'

@@ -69,8 +69,8 @@ useEffect(() => {
         return (
             <center>
           <BarChart className='leaveChart' width={600} height={300} data={chartData}  value={data.filter(item => item.type)} margin={{ top: 55, right: 50, left: 50, bottom: 5 }} onClick={handleClick}>
-            <XAxis dataKey="name" />
-            <YAxis />
+            <XAxis dataKey="name"  style={{fontSize:"110%"}}/>
+            <YAxis  style={{fontSize:"110%"}} />
             <Tooltip cursor={{fill: 'transparent'}}/>
             {/* <Tooltip /> */}
             <Legend />

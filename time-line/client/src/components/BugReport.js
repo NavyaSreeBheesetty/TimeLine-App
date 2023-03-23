@@ -48,8 +48,8 @@ const data=[...bugs];
 
     <center>
         <BarChart width={800} height={450} data={data} margin={{ top: 100, right: 50, left: 75, bottom: 5 }}>
-            <XAxis dataKey="date" />
-            <YAxis />
+            <XAxis dataKey="date"  style={{fontSize:"110%"}}/>
+            <YAxis  style={{fontSize:"110%"}}/>
             <Tooltip cursor={{fill: 'transparent'}}/>
             {/* <Tooltip /> */}
             <Legend />

@@ -49,8 +49,8 @@ if (selectedLeaveDate) {
        
 
         <BarChart className='leaveReport' width={800} height={450} data={data} margin={{ top: 120, right: 50, left: 75, bottom: 5 }}>
-            <XAxis dataKey="stdt" />
-            <YAxis />
+            <XAxis dataKey="stdt"  style={{fontSize:"110%"}}/>
+            <YAxis  style={{fontSize:"110%"}} />
             <Tooltip cursor={{fill: 'transparent'}}/>
             <Legend />
             <Bar dataKey="leave" fill="rgb(47, 225, 225)" onClick={handleExpenseBarClick} barSize={40} />

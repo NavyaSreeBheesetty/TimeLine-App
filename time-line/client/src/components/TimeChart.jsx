@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback} from "react";
 import axios from "axios";
 import {
   PieChart,
@@ -11,18 +11,21 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import TaskChart from "./ToDoChart";
+import { useNavigate } from "react-router-dom";
 import _ from "lodash";
 import { Button, Modal, Table,Header } from "semantic-ui-react";
 import "./style.css";
 import Cookies from "universal-cookie";
 import moment from "moment";
 moment().format();
-const TimeChart = (date) => {
-  const [tasks, setTasks] = useState([]);
-  const [deleted, setDeleted] = useState(0);
-  const [pending, setPending] = useState(0);
 
-  const [data, setData] = useState([]);
+
+const TimeChart = (date) => {
+  const navigate = useNavigate();
+  const [tasks, setTasks] = useState([]);
+ 
+ const [data, setData] = useState([]);
 
   const [selectedData, setSelectedData] = useState("");
   const [description, setDescription] = useState("");
@@ -205,8 +208,21 @@ const TimeChart = (date) => {
     setOpen(true);
   }
 
+
+  const handleClick = () => {
+    navigate('/ToDoChart');
+  };
+
+
   return (
+    <>
+    <div className="timeChartButton">
+    <button class="ui button" onClick={handleClick}>
+ previous
+</button>
+    </div>
     <div style={{display:"flex"}}>
+      {/* <div> */}
     <div className="chart-container">
     <center>
         <BarChart
@@ -221,8 +237,9 @@ const TimeChart = (date) => {
             dataKey="label1"
             onClick={(e) => handleBarClick(e)}
             type="category"
+            style={{fontSize:"110%"}}
           />
-          <YAxis />
+          <YAxis  style={{fontSize:"110%"}}/>
           <Tooltip cursor={{ fill: "transparent" }} />
           <Bar dataKey="tasks" fill="rgb(48, 81, 138)" barSize={40} />
         </BarChart>
@@ -279,6 +296,7 @@ const TimeChart = (date) => {
     </div>
     <Chart chartData={chart} />
     </div>
+    </>
   );
 };
 
@@ -365,6 +383,8 @@ function Chart({ chartData }) {
   );
 
   return (
+    <>
+    <div className="pieChart">
     <PieChart width={500} height={400}>
       <Pie
         activeIndex={activeIndex}
@@ -379,6 +399,8 @@ function Chart({ chartData }) {
         onMouseEnter={onPieEnter}
       />
     </PieChart>
+    </div>
+    </>
   );
 }
 
