@@ -14,14 +14,14 @@ export default function Auth() {
     if (cookie.get("session_id")) {
       axios
         .post(
-          "http://localhost:2805/auth",
+          "http://192.168.1.7:2805/auth",
           { session_id: cookie.get("session_id") },
           {
             headers: { "Content-Type": "application/json" },
           }
         )
         .then((res) => {
-          if (res.data[0]) {
+          if (res.data.sessionExist) {
             dispatcher(
               setLogins([res.data, cookie.get("username")]),
               setAdmin(cookie.get("role") === "true")

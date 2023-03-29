@@ -2,26 +2,39 @@ import React, {useState,useEffect} from 'react';
 import axios from 'axios';
 import { BarChart, Bar, XAxis, YAxis,Tooltip, Legend } from 'recharts';
 import _ from 'lodash';
-import { Button, Modal, Table } from "semantic-ui-react";
+import { Button, Modal, Table,Icon,Label } from "semantic-ui-react";
 import "./style.css";
+import Pagination from "react-js-pagination";
+import BugReport from './BugReport';
+import BugDateChart from './BugDateChart';
+import Cookies from "universal-cookie";
 
 const BugsChart = (date) => {
+  const cookie = new Cookies();
+    const user = cookie.get("username");
+    const isAdmin = cookie.get("admin") === "true" ? true : false;
+    console.log(isAdmin)
 
   const [bugs, setBugs] = useState([]);
    
   const [data, setData] = useState([]);
 
-  const [selectedData, setSelectedData] = useState('');
+  const [selectedData, setSelectedData] = useState([]);
   const [description, setDescription] = useState("");
 
   const [open, setOpen] = useState(false);
+  const [temp, setTemp] = useState(false);
+
+  const [activePage, setActivePage] = useState(1);
+  const [tasksPerPage, setTasksPerPage] = useState(2);
 
 
   
   useEffect(() => {
        
 
-    axios.get(`http://192.168.1.7:2805/bugs`)
+    // axios.get(`http://192.168.1.7:2805/bugs`)
+    axios.get("http://192.168.1.7:2805/bugs/" + cookie.get("username"))
 
     .then(response => {
 
@@ -130,8 +143,58 @@ const handleBarClick = (e) => {
         setDescription(desc);
         setOpen(true);
       }
+
+
+
+      const handlePreviousClick = () => {
+        console.log("prev");
+        setTemp(true);
+    
+        return <BugReport />;
+      };
+
+
+
+      const handlePageChange = (pageNumber) => {
+        setActivePage(pageNumber);
+      };
+    
+    
+      const indexOfLastTask = activePage * tasksPerPage;
+      
+      const indexOfFirstTask = indexOfLastTask - tasksPerPage;
+      const currentTasks = selectedData.slice(indexOfFirstTask, indexOfLastTask);
+      console.log(currentTasks)
+      
+      const TableRows =currentTasks.map((finalTasks, index) => {
+       return <Table.Row id={finalTasks._id} key={index}>
+      <Table.Cell>{finalTasks.bugName}</Table.Cell>
+              <Table.Cell>{finalTasks.bugURL}</Table.Cell>
+              <Table.Cell>{finalTasks.status}</Table.Cell>
+            
+              <Table.Cell>
+                <Button onClick={() => handleButtonClick(finalTasks.bugDescription)}>
+                  View
+                </Button>
+              </Table.Cell>
+            </Table.Row>
+      }
+    );
+     
+
+
+
   return (
- 
+    <>
+    {!temp && <> <div className="timeChartButton">
+      
+      <Button icon labelPosition='right' class="ui button" onClick={handlePreviousClick}>
+    <Icon name='left arrow' />Previous
+  </Button>
+      
+    </div>
+
+
     <div className="chart-container">
     <center>
       <BarChart className="bugsChart" width={600} height={300} data={bugs} margin={{ top: 55, right: 50, left: 50, bottom: 5 }} onClick={handleBarClick}>
@@ -139,29 +202,30 @@ const handleBarClick = (e) => {
       dataKey='label1'
       onClick={(e) => handleBarClick(e)}
       type='category'
-      style={{fontSize:"110%"}}
-    />
-    <YAxis  style={{fontSize:"110%"}} />
+      style={{fontSize:"130%"}}
+    >
+      label={{ value: 'Tasks', angle: -90, position: 'insideLeft', fontSize: "130%" }}
+      </XAxis>
+    <YAxis  style={{fontSize:"130%"}} label={{ value: 'Tasks', angle: -90, position: 'insideLeft', fontSize: "130%" }} />
     <Tooltip cursor={{fill: 'transparent'}}/>
-    <Bar dataKey='bugs' fill='#8884d8' barSize={40} />
+    <Bar dataKey='bugs' fill='rgb(82, 129, 183)' barSize={40}  cursor="pointer"/>
   </BarChart>
   </center>
 
 
-{selectedData ? (
-
+{selectedData.length!=0 ? (
+<>
       <Table className="my-table">
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>BugName</Table.HeaderCell>
             <Table.HeaderCell>BugURL</Table.HeaderCell>
-
             <Table.HeaderCell>Status</Table.HeaderCell>
             <Table.HeaderCell>Description</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {selectedData.map((finalTasks, index) => (
+          {/* {selectedData.map((finalTasks, index) => (
             <Table.Row key={index}>
               <Table.Cell>{finalTasks.bugName}</Table.Cell>
               <Table.Cell>{finalTasks.bugURL}</Table.Cell>
@@ -173,15 +237,26 @@ const handleBarClick = (e) => {
                 </Button>
               </Table.Cell>
             </Table.Row>
-          ))}
+          ))} */}
+       
+        {TableRows}
         </Table.Body>
       </Table>
       
-    ) : null}
+      </>) : <></>}
+
+
+      {selectedData.length!=0? (<> <Pagination
+        activePage={activePage}
+        itemsCountPerPage={tasksPerPage}
+        totalItemsCount={data.length}
+        pageRangeDisplayed={5}
+        onChange={handlePageChange}
+      /> </>):<></>}
 
     
     <Modal open={open} onClose={() => setOpen(false)}
-      style={{
+       style={{ 
         width: "400px",
         height: "200px",
         margin: "auto",
@@ -191,18 +266,25 @@ const handleBarClick = (e) => {
         borderRadius: "10px",
         boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)"
       }} basic>
-      <Modal.Header>Description</Modal.Header>
+
+      {/* <Modal.Header>Description</Modal.Header> */}
       <Modal.Content>
+        <p style={{fontSize:"200%"}}> <b>Description</b></p>
         <p>{description}</p>
       </Modal.Content>
       <Modal.Actions>
-        <Button onClick={() => setOpen(false)}>Close</Button>
+        <Button onClick={() => setOpen(false)} style={{backgroundColor:"rgb(82, 129, 183)"}}>Close</Button>
       </Modal.Actions>
     </Modal>
  
 
 
 </div>
+
+</> }
+
+      {temp && <BugReport />}
+    </>
 
   )
 }

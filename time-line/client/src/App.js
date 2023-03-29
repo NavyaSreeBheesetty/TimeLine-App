@@ -6,6 +6,7 @@ import Login from "./components/login";
 import Auth from "./components/auth";
 import ErrorPage from "./components/error";
 import TaskChart from "./components/ToDoChart";
+import TimeChart from "./components/TimeChart";
 import ExpenseTracker from "./components/ExpenseTracker";
 import BugReport from "./components/BugReport";
 import LeaveReport from "./components/LeaveReport";
@@ -37,8 +38,8 @@ const router = createBrowserRouter([
         element: < TaskChart/>,
       },
       {
-      path:"ToDoChart",
-      element:<TaskChart/>
+        path: "TimeChart",
+        element: < TimeChart/>,
       },
       {
         path:"ExpenseTracker",

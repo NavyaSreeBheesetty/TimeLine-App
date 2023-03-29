@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
 import { Menu,Icon} from 'semantic-ui-react'
@@ -6,6 +6,7 @@ import { logout } from '../functions/auth';
 import Cookies from 'universal-cookie';
 import { setAdmin, setLogins } from '../reducers/globalStates';
 import "./navbar.css";
+import { set } from 'lodash';
 
 
 
@@ -18,6 +19,8 @@ export default function Navbar() {
     const dispatcher = useDispatch();
     const navigate = useNavigate();
     const [activeItem, setActiveItem] = useState("home")
+  
+    
     
     const destroySession = async () => {
         let flag = await logout();
@@ -29,18 +32,27 @@ export default function Navbar() {
         }
     };
     const State = useSelector((state) => state.globalStates);
+    
+    const handleItemClick = (e, {name }) =>
+    { setActiveItem(name);
+        localStorage.setItem("active", name);}
+        
+var t=localStorage.getItem("active");
+useEffect(()=>
+{
+    setActiveItem(t)
+},[t])
 
-    const handleItemClick = (e, { name }) => setActiveItem(name)
     return (
         <div style={{ height: "100vh", backgroundColor: "#2F4F4F" }}>
-            <Menu pointing secondary vertical style={{width:'250px', height: "100%"}}>
+            <Menu pointing secondary vertical style={{width:'250px', height: "100%", fixed:"top"}}>
             {/* <Menu.Item>
                     <img src="https://citrixready.citrix.com/content/dam/ready/partners/xe/xenovus-inc/backflipt-ios/backflipt-ios-images.png" alt="Logo" style={{marginLeft:"25px", height: '100px', marginBottom: '10px'}} />
                 </Menu.Item> */}
 
 
                 
-<Menu.Menu position="right" className='userMenu' style={{marginLeft:"65px", height: '40px', marginBottom: '10px'}}>
+<Menu.Menu position="right" className='userMenu' style={{marginLeft:"65px", height: '55px', marginBottom: '10px'}}>
        
        <Icon name="user circle"  style={{size:"40%"}}/>
        {username}
@@ -87,6 +99,24 @@ export default function Navbar() {
   <Icon name='clock outline' size='large' />
   TO DO
 </Menu.Item>
+
+
+
+{/* <Menu.Item className="navBarHiddenStyle"
+                        name='TimeChart'
+                        as={Link}
+                        to="/TimeChart"
+                        active={activeItem === 'TimeChart'}
+                        onClick={handleItemClick}
+                    >
+                         <Icon name='clock outline' size='large' />
+                          TimeChart
+                      </Menu.Item>  */}
+
+
+
+
+
 
 
                 <Menu.Item className="navBarStyle"

@@ -5,13 +5,13 @@ let cookie = new Cookies();
 export const checkAuth = async () => {
   if (cookie.get("session_id")) {
     let res = await axios.post(
-      "http://localhost:2805/auth",
+      "http://192.168.1.7:2805/auth",
       { session_id: cookie.get("session_id") },
       {
         headers: { "Content-Type": "application/json" },
       }
     );
-    return res.data[0];
+    return res.data.sessionExist;
   } else {
     // cookie.set("session_id", "", { path: "/", expires: new Date() });
     return false;
@@ -21,10 +21,11 @@ export const checkAuth = async () => {
 //           navigate("/bug-hunter");
 
 export const logout = async () => {
+
   let flag = false;
   await axios
     .post(
-      "http://localhost:2805/logout",
+      "http://:192.168.1.7:2805/logout",
       { session_id: cookie.get("session_id") },
       {
         headers: { "Content-Type": "application/json" },
@@ -32,8 +33,19 @@ export const logout = async () => {
     )
     .then((response) => response.data)
     .then((data) => {
-      cookie.set("session_id", "", { path: "/", expires: new Date() });
+      
+      clearCookie();
       flag = data;
+    }).catch((err)=>{
+      clearCookie();
+      flag=true
     });
   return flag;
+};
+
+export const clearCookie = () => {
+  Object.keys(cookie.getAll()).map((ele) => {
+    cookie.set(ele, "", { path: "/", expires: new Date() });
+    return true;
+  });
 };
